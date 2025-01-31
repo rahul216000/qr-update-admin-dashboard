@@ -1,0 +1,5 @@
+/.env
+/credentials
+/nodemon.json
+/node_modules
+/package-lock.json

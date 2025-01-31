@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Login & Registration</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="/css/style.css"> <!-- Adjusted path -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+</head>
+
+<body>
+
+    <div class="lang">
+        <!-- Language Switcher -->
+        <select id="languageSwitcher">
+            <option value="en">English</option>
+            <option value="de">Deutsch (German)</option>
+            <option value="hu">Magyar (Hungarian)</option>
+        </select>
+    </div>
+
+    <div class="container">
+
+        <div class="form-container">
+
+            <div class="form-box update">
+                <h2 id="UpdateDetailsText">Update Details</h2>
+                <form id = "UpdateUserDetails" method="POST" onsubmit="return handleUpdateDetails(event)">
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="FullNameText" name="fullName" placeholder="Full Name" required value="<%= user.fullName %>">
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="RegisterEmailText" name="email" placeholder="Username" required value="<%= user.email %>">
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="text" id="RegisterPasswordText" name="password" placeholder="Password" value="<%= user.decryptPassword %>"
+                            required>
+                    </div>
+                    <!-- <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
+                    </div> -->
+                    <button type="submit" class="submit-btn" id="UpdateBtn">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.12.0/toastify.min.js"></script>
+    <script src="/js/toastify-setup.js"></script>
+    <script src="/js/api-calls.js"></script>
+    <script>
+        // Check if there's a message passed from the server
+        <% if (typeof message !== 'undefined' && message) { %>
+            showToast("<%= message %>", "<%= type || 'success' %>");
+        <% } %>
+    </script>
+
+    <!-- <script src="/js/translations.js"></script> -->
+</body>
+
+</html>

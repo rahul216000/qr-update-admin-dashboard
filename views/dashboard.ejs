@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+</head>
+
+<body>
+
+    <button class="menu-toggle">☰</button>
+    <div class="side-menu">
+        <button class="menu-close">×</button>
+        <div class="menu-item active" data-section="generate" id="CreateQRCode">Create QR Code</div>
+        <div class="menu-item" data-section="show" id="myQRCodes">Show my QR Codes</div>
+    </div>
+    <div class="main-content">
+        <header class="header">
+            <img src="/logo.jpeg" alt="Header Image" class="header-image" onclick="OpenSite()">
+        </header>
+
+        <%- include('../components/loader') %>
+            <!-- <h1 class="fade-in">QR Code Generator</h1> -->
+            <% if (activeSection==='generate' ) { %>
+                <div id="generate-section" class="fade-in"
+                    style="<%= activeSection === 'generate' ? '' : 'display: none;' %>">
+                    <div class="input-group">
+                        <label for="qr-name" id="QRCodeNameLang">QR Code Name:</label>
+                        <input type="text" id="qr-name" placeholder="Namen eingeben">
+                    </div>
+                    <div class="input-group">
+                        <label for="qr-type" id="QRContentLang">QR Code Content:</label>
+                        <select id="qr-type">
+                            <option value="media" id="MediaLangPhoto">Foto/Video</option>
+                            <option value="text" id="TextLangChoose">Text</option>
+                            <option value="url" id="LinkLangChoose">Link</option>
+                        </select>
+                    </div>
+                    <div id="input-fields"></div>
+                    <div class="input-group" style="display: none;">
+                        <label for="qr-text">Text or URL:</label>
+                        <input type="text" id="qr-text" placeholder="Enter text or URL">
+                    </div>
+                    <div class="input-group" style="display: none;">
+                        <label for="qr-code-key">Code</label>
+                        <input type="text" id="qr-code-key" placeholder="Code">
+                    </div>
+                    <div class="input-group">
+                        <label for="qr-color" id="CodeColorLang">Code Color:</label>
+                        <input type="color" id="qr-color" value="#000000">
+                    </div>
+                    <div class="input-group">
+                        <label for="bg-color" id="BackgroundColorLang">Background Color:</label>
+                        <input type="color" id="bg-color" value="#ffffff">
+                    </div>
+                    <div class="input-group" style="display: none;">
+                        <label for="dot-style">Dot Style:</label>
+                        <select id="dot-style">
+                            <option value="square">Square</option>
+                            <option value="rounded" selected>Rounded</option>
+                            <option value="dots">Dots</option>
+                            <option value="classy">Classy</option>
+                            <option value="hexagon">Hexagon</option>
+                            <option value="star">Star</option>
+                            <option value="circle">Circle</option>
+                        </select>
+                    </div>
+                    <div class="input-group" style="display: none;">
+                        <label for="corner-style">Corner Style:</label>
+                        <select id="corner-style">
+                            <option value="square">Square</option>
+                            <option value="dot" selected>Dot</option>
+                            <option value="extra-rounded">Extra Rounded</option>
+                            <option value="triangle">Triangle</option>
+                            <option value="diamond">Diamond</option>
+                        </select>
+                    </div>
+                    <div class="input-group" style="display: none;">
+                        <label for="gradient">Apply Gradient:</label>
+                        <select id="gradient">
+                            <option value="none">None</option>
+                            <option value="linear">Linear</option>
+                            <option value="radial">Radial</option>
+                        </select>
+                    </div>
+                    <div class="input-group" style="display: none;">
+                        <label for="logo" id="AddLogoLang">Logo hinzufügen (optional):</label>
+                        <input type="file" id="logo" accept="image/*">
+                    </div>
+                    <!-- Submit Button Added Here -->
+                    <button class="submit-btn" id="submit-btn-generate">VibeCode erstellen</button>
+                    <button class="submit-btn" id="submit-btn-update">Inhalt des VibeCodes ändern</button>
+                    <button class="submit-btn" id="downloadQRCode" onclick="downloadQRCode()">VibeCode
+                        herunterladen</button>
+                    <div id="qr-code"></div>
+                </div>
+                <% } %>
+                    <!-- Show Section -->
+                    <% if (activeSection==='show' ) { %>
+                        <div id="show-section" class="fade-in">
+                            <!-- Include the header partial -->
+                            <%- include('../components/qr-gallery'); -%>
+                        </div>
+                        <% } %>
+    </div>
+
+    <select id="languageSwitcher">
+        <option value="en">English</option>
+        <option value="de">Deutsch (German)</option>
+        <option value="hu">Magyar (Hungarian)</option>
+    </select>
+
+    <button class="logout-btn fade-in" id="LongOutLang" onclick="return handleLogout(event)">Ausloggen</button>
+
+
+    <script src="/js/dashboard.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.12.0/toastify.min.js"></script>
+    <script src="/js/toastify-setup.js"></script>
+    <script src="/js/generateqr-api.js"></script>
+    <script src="/js/api-calls.js"></script> <!-- Add this script to ensure API calls are loaded -->
+    <script>
+        <% if (activeSection === 'generate' && qrCode) { %>
+            // Pass qrCode data to the JavaScript function if available and activeSection is 'generate'
+            const qr = <%- JSON.stringify(qrCode) %>;
+            showGenerateSection(qr);
+        <% } %>
+    </script>
+    <script src="/js/translations.js"></script>
+    <script>
+            function OpenSite() {
+                let lang = document.getElementById("languageSwitcher").value
+                if (lang == "hu") {
+                    window.open('https://magicprints.studio/', '_blank')
+                } else {
+                    window.open('https://textildruck-schweiz.com/', '_blank')
+                }
+            }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,116 @@
+{
+    "en": {
+      "LoginText": "Login",
+      "EmailText": "Email",
+      "PasswordText": "Password ",
+      "LoginBtnText": "Login",
+      "DontHaveAccountText": "Don't have an account yet?",
+      "register-toggle": "Register", 
+      "FullNameText": "Full Name",
+      "RegisterText": "Register",
+      "RegisterEmailText": "Email",
+      "RegisterPasswordText": "Password",
+      "RegisterBtnText": "Register",
+      "AlreadyHaveAccountText": "Already have an account?",
+      "login-toggle": "Login",
+
+
+      "CreateQRCode":"Create QR Code",
+      "myQRCodes":"Show my QR Codes",
+      "QRCodeNameLang":"QR Code Name",
+      "qr-name":"Name",
+      "QRContentLang":"QR Code Content",
+      "CodeColorLang":"Code Color",
+      "BackgroundColorLang":"Background Color",
+      "AddLogoLang":"Add Logo",
+      "submit-btn-generate":"Create QR Code",
+      "submit-btn-update":"Change QR Code Content",
+      "downloadQRCode":"Download QR Code",
+      "MediaLang":"Upload your file",
+      "TextLang":"Type Text",
+      "UrlLang":"Insert Link",
+      "LongOutLang":"Log out",
+      "MediaLangPhoto":"Photo/Video",
+      "TextLangChoose":"Text",
+      "LinkLangChoose":"Link"
+
+    },
+    "de": {
+
+
+      "LoginText": "Einloggen",
+      "EmailText": "E-Mail",
+      "PasswordText": "Passwort ",
+      "LoginBtnText": "Einloggen",
+      "DontHaveAccountText": "Sie haben noch kein Konto?",
+      "register-toggle": "Registrieren", 
+      "FullNameText": "Name und Vorname",
+      "RegisterText": "Registrieren",
+      "RegisterEmailText": "E-Mail",
+      "RegisterPasswordText": "Passwort",
+      "RegisterBtnText": "Registrieren",
+      "AlreadyHaveAccountText": "Hast du bereits einen Account?",
+      "login-toggle": "Einloggen",
+
+      "CreateQRCode":"Magic Code erstellen",
+      "myQRCodes":"Meine Magic Codes",
+      "QRCodeNameLang":"Magic Code Name",
+      "qr-name":"Namen eingeben",
+      "QRContentLang":"Den Inhalt des Magic Codes bestimmen",
+      "CodeColorLang":"Magic Code Farbe",
+      "BackgroundColorLang":"Hintergrund Farbe",
+      "AddLogoLang":"Logo hinzufügen (optional)",
+      "submit-btn-generate":"Magic Code erstellen",
+      "submit-btn-update":"Inhalt des Magic Codes ändern",
+      "downloadQRCode":"Magic Code herunterladen",
+      "MediaLang":"Datei hochladen",
+      "TextLang":"Text schreiben",
+      "UrlLang":"Link einkopieren",
+      "LongOutLang":"Ausloggen",
+      "MediaLangPhoto":"Foto/Video",
+      "TextLangChoose":"Text",
+      "LinkLangChoose":"Link"
+
+
+    },
+    "hu": {
+
+
+      "LoginText": "Belépés",
+      "EmailText": "E-mail",
+      "PasswordText": "Jelszó ",
+      "LoginBtnText": "Belépés",
+      "DontHaveAccountText": "Még nincs fiókod?",
+      "register-toggle": "Regisztráció", 
+      "FullNameText": "Teljes név",
+      "RegisterText": "Regisztráció",
+      "RegisterEmailText": "E-mail",
+      "RegisterPasswordText": "Jelszó",
+      "RegisterBtnText": "Regisztráció",
+      "AlreadyHaveAccountText": "Van már fiókod?",
+      "login-toggle": "Belépés",
+
+
+      "CreateQRCode":"Magic Kód létrehozása",
+      "myQRCodes":"Magic Kódjaim",
+      "QRCodeNameLang":"Magic Kód elnevezése",
+      "qr-name":"Elnevezés",
+      "QRContentLang":"Magic Kód tartalma",
+      "CodeColorLang":"Magic Kódom színe",
+      "BackgroundColorLang":"Magic Kódom háttér színe",
+      "AddLogoLang":"Logo hozzáadása",
+      "submit-btn-generate":"Magic Kód létrehozása",
+      "submit-btn-update":"A Magic Kód kontextusának a megváltoztatása",
+      "downloadQRCode":"A Magic Kód letöltése",
+      "MediaLang":"Fájl feltöltése",
+      "TextLang":"Szöveg",
+      "UrlLang":"Link ",
+      "LongOutLang":"Kilépés",
+      "MediaLangPhoto":"Fotó / Videó",
+      "TextLangChoose":"Text",
+      "LinkLangChoose":"Link"
+
+      
+    }
+  }
+  

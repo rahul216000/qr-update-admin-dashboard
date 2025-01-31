@@ -1,0 +1,199 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+:root {
+  --font-family: "Poppins", sans-serif;
+  --bg-gradient-start: #e0f7fa;
+  --bg-gradient-end: #ffe0b2;
+  --container-bg: rgba(255, 255, 255, 0.9);
+  --container-backdrop-blur: 10px;
+  --border-radius: 10px;
+  --box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  --text-color: #333333;
+  --card-bg: #ffffff;
+  --card-hover-transform: translateY(-5px);
+  --card-transition: all 0.3s ease;
+  --link-color: #4db6ac;
+  --link-hover-color: #26a69a;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(
+    45deg,
+    var(--bg-gradient-start),
+    var(--bg-gradient-end)
+  );
+  padding: 20px;
+}
+
+.container-custom {
+  width: 100%;
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 20px;
+  transition: var(--card-transition);
+  cursor: pointer;
+  overflow: hidden;
+  max-width: 300px;
+}
+
+.card:hover {
+  transform: var(--card-hover-transform);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.card h2 {
+  color: var(--text-color);
+  margin-bottom: 15px;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.card p {
+  color: var(--text-color);
+  font-size: 1em;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.card a {
+  color: var(--link-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  word-break: break-all;
+}
+
+.card a:hover {
+  color: var(--link-hover-color);
+}
+
+.qr-image {
+  width: 100%;
+  height: 200px;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .qr-image {
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .container-custom {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .container-custom {
+    grid-template-columns: 1fr;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: fadeInUp 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+.card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.card:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.card:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+.card:nth-child(6) {
+  animation-delay: 0.6s;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination-btn {
+  padding: 5px 10px;
+  margin: 0 5px;
+  background-color: lightslategrey;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.pagination-btn:hover {
+  background-color: var(--link-hover-color);
+}
+
+.pagination-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.prev-btn,
+.next-btn {
+  padding: 3px;
+}
+
+.pagination-info {
+  display: flex;
+  align-items: center;
+  margin: 0 10px;
+}
+
+/* Active Page Style */
+.pagination-btn.active-page {
+  background-color: var(--link-hover-color);
+  font-weight: bold;
+  pointer-events: none;
+  /* Prevent clicking on the active page */
+}

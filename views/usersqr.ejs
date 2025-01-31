@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Cards</title>
+    <link rel="stylesheet" href="/css/usersqr.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <style>
+    </style>
+</head>
+
+<body>
+    <%- include('../components/navbar') %>
+
+        <% if (currentPage> totalPages || currentPage < 1) { %>
+                <!-- Display 404 for invalid page numbers -->
+                <%- include('../components/404') %>
+                    <% } else if (typeof qrDetails !=='undefined' && qrDetails && qrDetails.length> 0) { %>
+                        <div class="container-custom">
+                            <% qrDetails.forEach(qr=> { %>
+                                <div class="card">
+                                    <!-- <div class="qr-image">
+                                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=<%= qr.code %>"
+                                            alt="QR Code">
+                                    </div> -->
+                                    <h2>
+                                        <%= qr.qrName %>
+                                    </h2>
+                                    <p><strong>Code:</strong>
+                                        <%= qr.code %>
+                                    </p>
+                                    <p><strong>QR Type:</strong>
+                                        <%= qr.type %>
+                                    </p>
+                                    <p><strong>Context Value:</strong>
+                                        <% if (qr.type==='url' ) { %>
+                                            <a href="<%= qr.url %>" target="_blank">
+                                                <%= qr.url %>
+                                            </a>
+                                            <% } else { %>
+                                                <a href="<%= FRONTEND_URL %>/<%= qr.code %>" target="_blank">
+                                                    <%= FRONTEND_URL %>/<%= qr.code %>
+                                                </a>
+                                                <% } %>
+                                    </p>
+
+                                </div>
+                                <% }) %>
+                        </div>
+                        <!-- Pagination Controls -->
+                        <div class="pagination-container">
+                            <% if (currentPage> 1) { %>
+                                <a href="?page=<%= currentPage - 1 %>" class="pagination-btn prev-btn">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor">
+                                        <path d="M15 19L8 12L15 5" />
+                                    </svg>
+                                </a>
+                                <% } %>
+
+                                    <% for (let i=1; i <=totalPages; i++) { %>
+                                        <% if (i===currentPage) { %>
+                                            <span class="pagination-btn active-page">
+                                                <%= i %>
+                                            </span>
+                                            <% } else { %>
+                                                <a href="?page=<%= i %>" class="pagination-btn">
+                                                    <%= i %>
+                                                </a>
+                                                <% } %>
+                                                    <% } %>
+
+                                                        <% if (currentPage < totalPages) { %>
+                                                            <a href="?page=<%= currentPage + 1 %>"
+                                                                class="pagination-btn next-btn">
+                                                                <svg width="22" height="22" viewBox="0 0 24 24"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    fill="currentColor">
+                                                                    <path d="M9 5L16 12L9 19" />
+                                                                </svg>
+                                                            </a>
+                                                            <% } %>
+                        </div>
+                        <% } else if (type==='success' ) { %>
+                            <!-- Display this component when qrDetails is empty -->
+                            <%- include('../components/noqr') %>
+                                <% } else { %>
+                                    <!-- Display generic error or 404 -->
+                                    <%- include('../components/404') %>
+                                        <% } %>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.12.0/toastify.min.js"></script>
+<script src="/js/toastify-setup.js"></script>
+
+
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced QR Code Generator</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+
+    #qr-container {
+      text-align: center;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 400px;
+    }
+
+    canvas {
+      margin: 20px 0;
+    }
+
+    input,
+    select,
+    button {
+      padding: 10px;
+      margin: 5px;
+      width: 100%;
+    }
+
+    label {
+      display: block;
+      margin: 5px 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="qr-container">
+
+    <header class="header">
+      <img src="/logo.jpeg" alt="Header Image" class="header-image">
+    </header>
+
+    <h1>Advanced QR Code Generator</h1>
+
+    <label for="qr-text">Text or URL:</label>
+    <input type="text" id="qr-text" placeholder="Enter text or URL">
+
+    <label for="qr-color">QR Dot Color:</label>
+    <input type="color" id="qr-color" value="#000000">
+
+    <label for="bg-color">Background Color:</label>
+    <input type="color" id="bg-color" value="#ffffff">
+
+    <label for="dot-style">Dot Style:</label>
+    <select id="dot-style">
+      <option value="square">Square</option>
+      <option value="rounded">Rounded</option>
+      <option value="dots">Dots</option>
+      <option value="classy">Classy</option>
+      <option value="hexagon">Hexagon</option> <!-- Custom shape -->
+      <option value="star">Star</option> <!-- Custom shape -->
+      <option value="circle">Circle</option> <!-- Custom shape -->
+    </select>
+
+    <label for="corner-style">Corner Style:</label>
+    <select id="corner-style">
+      <option value="square">Square</option>
+      <option value="dot">Dot</option>
+      <option value="extra-rounded">Extra Rounded</option>
+      <option value="triangle">Triangle</option> <!-- Custom corner shape -->
+      <option value="diamond">Diamond</option> <!-- Custom corner shape -->
+    </select>
+
+    <label for="gradient">Apply Gradient:</label>
+    <select id="gradient">
+      <option value="none">None</option>
+      <option value="linear">Linear</option>
+      <option value="radial">Radial</option>
+    </select>
+
+    <label for="logo">Add Logo (optional):</label>
+    <input type="file" id="logo" accept="image/*">
+
+    <button onclick="generateQRCode()">Generate QR Code</button>
+
+    <div id="qr-code"></div>
+
+    <button onclick="downloadQRCode()">Download QR Code</button>
+  </div>
+
+  <script>
+    const qrCode = new QRCodeStyling({
+      width: 300,
+      height: 300,
+      type: "canvas",
+      data: "https://example.com",
+      dotsOptions: {
+        color: "#000000",
+        type: "square"
+      },
+      backgroundOptions: {
+        color: "#ffffff"
+      },
+      cornersSquareOptions: {
+        type: "square"
+      }
+    });
+
+    qrCode.append(document.getElementById("qr-code"));
+
+    function generateQRCode() {
+      const qrText = document.getElementById("qr-text").value;
+      const qrColor = document.getElementById("qr-color").value;
+      const bgColor = document.getElementById("bg-color").value;
+      const dotStyle = document.getElementById("dot-style").value;
+      const cornerStyle = document.getElementById("corner-style").value;
+      const gradient = document.getElementById("gradient").value;
+      const logoFile = document.getElementById("logo").files[0];
+
+      // Gradient settings
+      let dotColor = { color: qrColor };
+      if (gradient === "linear") {
+        dotColor = {
+          gradient: {
+            type: "linear",
+            colorStops: [{ offset: 0, color: "#ff0000" }, { offset: 1, color: qrColor }]
+          }
+        };
+      } else if (gradient === "radial") {
+        dotColor = {
+          gradient: {
+            type: "radial",
+            colorStops: [{ offset: 0, color: "#ff0000" }, { offset: 1, color: qrColor }]
+          }
+        };
+      }
+
+      // Load the image for logo if uploaded
+      let logoUrl = '';
+      if (logoFile) {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          logoUrl = event.target.result;
+          updateQRCode(qrText, dotColor, bgColor, dotStyle, cornerStyle, logoUrl);
+        };
+        reader.readAsDataURL(logoFile);
+      } else {
+        updateQRCode(qrText, dotColor, bgColor, dotStyle, cornerStyle, logoUrl);
+      }
+    }
+
+    function updateQRCode(qrText, dotColor, bgColor, dotStyle, cornerStyle, logoUrl) {
+      qrCode.update({
+        data: qrText,
+        dotsOptions: {
+          color: dotColor.color,
+          type: dotStyle,
+          gradient: dotColor.gradient
+        },
+        backgroundOptions: {
+          color: bgColor
+        },
+        cornersSquareOptions: {
+          type: cornerStyle
+        },
+        image: logoUrl ? logoUrl : "",  // Use logo image if provided
+        imageOptions: {
+          crossOrigin: "anonymous",
+          margin: 10
+        }
+      });
+    }
+
+    function downloadQRCode() {
+      qrCode.download({ name: "qr-code", extension: "png", width: 16000, height: 16000 }); // High resolution download
+    }
+  </script>
+
+  <script>
+    function OpenSite() {
+      let lang = document.getElementById("languageSwitcher").value
+      if (lang == "hu") {
+        window.open('domain.com/', '_blank')
+      } else {
+        window.open('domain.com/', '_blank')
+      }
+    }
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,351 @@
+:root {
+  --primary-bg-color: #333;
+  --primary-text-color: #fff;
+  --secondary-bg-color: #555;
+  --accent-color: #26a69a;
+  --hover-accent-color: #7dcec6;
+  --light-bg-color: #f0f0f0;
+  --text-dark: #333;
+  --text-light: #555;
+  --border-color: #ddd;
+  --padding-sm: 8px;
+  --padding-md: 10px;
+  --padding-lg: 20px;
+  --border-radius: 4px;
+  --font-size: 16px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.header {
+  text-align: center; /* Center the image horizontally */
+  padding: 20px; /* Optional padding around the image */
+}
+
+.header-image {
+  max-width: 120px; /* Set the maximum width of the image */
+  height: auto; /* Maintain aspect ratio */
+  display: inline-block; /* Ensure it's treated as an inline element */
+  border-radius: 10px; /* Optional: Add rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Add a subtle shadow */
+  cursor: pointer;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  background-color: var(--light-bg-color);
+  display: flex;
+  min-height: 100vh;
+}
+
+.side-menu {
+  width: 200px;
+  background-color: var(--primary-bg-color);
+  color: var(--primary-text-color);
+  padding: var(--padding-lg);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease-in-out;
+  position: relative;
+}
+
+#qr-code {
+  margin-top: 20px;
+  text-align: center;
+  display: none;
+}
+
+.menu-toggle {
+  display: none;
+  position: fixed;
+  top: var(--padding-md);
+  left: var(--padding-md);
+  z-index: 1000;
+  background-color: var(--primary-bg-color);
+  color: var(--primary-text-color);
+  border: none;
+  padding: var(--padding-md);
+  cursor: pointer;
+}
+
+.menu-close {
+  position: absolute;
+  top: var(--padding-md);
+  right: var(--padding-md);
+  background-color: transparent;
+  color: var(--primary-text-color);
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  display: none;
+}
+
+.menu-item {
+  padding: var(--padding-md);
+  margin-bottom: var(--padding-md);
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.menu-item:hover,
+.menu-item.active {
+  background-color: var(--secondary-bg-color);
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: var(--padding-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+  margin: 40px 0;
+}
+
+h1 {
+  margin-bottom: var(--padding-lg);
+  color: var(--text-dark);
+  text-align: center;
+}
+
+.input-group {
+  margin-bottom: var(--padding-lg);
+  width: 100%;
+  max-width: 300px;
+}
+
+label {
+  display: block;
+  margin-bottom: var(--padding-sm);
+  color: var(--text-light);
+}
+
+select,
+input[type="text"],
+input[type="file"],
+textarea {
+  width: 100%;
+  padding: var(--padding-md);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size);
+}
+
+.logout-btn {
+  position: absolute;
+  top: var(--padding-lg);
+  right: var(--padding-lg);
+  padding: var(--padding-md) var(--padding-lg);
+  background-color: var(--accent-color);
+  color: var(--primary-text-color);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: var(--hover-accent-color);
+}
+
+.lang{
+  margin-top: 20px;
+  position: relative;
+  /* left: 40%; */
+  right: 10%;
+}
+#languageSwitcher{
+  display: inline-block;
+  padding: 8px;
+  text-align: center;
+  background-color: white;
+  color: black;
+  border: 2px solid var(--link-hover-color);
+  border-radius: 5px;
+  font-size: 15px;
+
+  position: absolute;
+  top: var(--padding-lg);
+  right: var(--padding-lg);
+  /* padding: var(--padding-md) var(--padding-lg); */
+  background-color: var(--accent-color);
+  color: var(--primary-text-color);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color 0.3s;
+  right: 10%;
+  width: fit-content;
+}
+
+
+
+
+#languageSwitcher:hover {
+
+  transform: scale(1.1);
+  box-shadow: var(--link-color);
+}
+
+#languageSwitcher:active {
+  background-color: white;
+  color: black;
+  transform: scale(0.95);
+}
+
+#languageSwitcher:focus {
+  background-color: white;
+  color: black;
+  outline: none;
+  box-shadow: var(--input-focus-border-color);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+  }
+
+  .side-menu {
+    position: fixed;
+    left: -200px;
+    top: 0;
+    bottom: 0;
+    z-index: 1000;
+  }
+
+  .side-menu.active {
+    transform: translateX(200px);
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .menu-close {
+    display: block;
+  }
+
+  .main-content {
+    width: 100%;
+    padding-top: 60px;
+  }
+
+  .logout-btn {
+    top: var(--padding-md);
+    right: var(--padding-md);
+    padding: var(--padding-sm) var(--padding-md);
+    font-size: 14px;
+  }
+  #languageSwitcher {
+    top: var(--padding-md);
+    right: var(--padding-md);
+    padding: var(--padding-sm) var(--padding-md);
+    font-size: 14px;
+    right: 27%;
+  }
+}
+
+/* Additional styles for QR code submit button */
+.qr-code .submit-btn {
+  background-color: var(--accent-color);
+  /* Set background color */
+  color: var(--primary-text-color);
+  /* Set text color */
+  padding: var(--padding-md) var(--padding-lg);
+  /* Padding */
+  border: none;
+  /* No border */
+  border-radius: var(--border-radius);
+  /* Border radius */
+  font-size: var(--font-size);
+  /* Font size */
+  cursor: pointer;
+  /* Pointer on hover */
+  transition: background-color 0.3s;
+  /* Transition effect */
+  width: 100%;
+  /* Full width */
+
+}
+
+.qr-code .submit-btn:hover {
+  background-color: var(--hover-accent-color);
+  /* Hover background color */
+}
+
+/* Ensuring the submit button style is consistent across forms */
+.submit-btn {
+  background-color: var(--accent-color);
+  color: var(--primary-text-color);
+  padding: var(--padding-md) var(--padding-lg);
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: var(--font-size);
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+  margin-bottom: var(--padding-sm);
+}
+
+.submit-btn:hover {
+  background-color: var(--hover-accent-color);
+}
+
+#show-section {
+  width: 100%;
+  margin-top: 10px;
+}
+
+#submit-btn-update {
+  display: none;
+}
+
+
+/* Base canvas styling */
+canvas {
+  width: 100%;
+  /* Set to full width to be responsive */
+  height: auto;
+  /* Maintain aspect ratio */
+  max-width: 250px;
+  /* Default max width */
+}
+
+
+
+/* Breakpoints to adjust canvas max-width */
+@media (min-width: 768px) {
+  canvas {
+    max-width: 200px;
+    /* Medium screens (e.g., tablet) */
+  }
+
+}
+
+@media (min-width: 1024px) {
+  canvas {
+    max-width: 250px;
+    /* Large screens (e.g., desktop) */
+  }
+}
+
+#downloadQRCode {
+  display: none;
+}

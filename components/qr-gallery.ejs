@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Gallery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/qr-gallery.css">
+</head>
+
+<body>
+    <div class="gallery">
+        <% if (qrCodes.length> 0) { %>
+            <% qrCodes.forEach(function(qrCode) { %>
+                <div class="qr-box">
+                    <div class="qr-title">
+                        <%= qrCode.qrName %>
+                    </div>
+                    <div class="qr-placeholder" id="qr-container-<%= qrCode._id %>"></div>
+                    <div class="button-group">
+                        <button class="btn" title="Update">
+                            <a href="/dashboard?myvibecode=<%= qrCode._id %>" class="btn" title="Update">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </button>
+                        <button class="btn" title="Download" onclick="downloadQRCodeShowed('<%= qrCode._id %>')">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="btn" title="Delete" onclick="deleteQRCode('<%= qrCode._id %>')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <% }) %>
+                    <% } else { %>
+                        <p>No QR codes found.</p>
+                        <% } %>
+    </div>
+
+    <div id="qrModal" class="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()"> <!-- Prevent event propagation here -->
+            <div id="view-qr">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2 id="modalTitle" style="margin-bottom: 10px; text-align: center;"></h2>
+                <img class="modal-image" id="modalImage" src="" alt="QR Code">
+            </div>
+
+            <!-- QR Code Generator Section -->
+            <div id="update-section" class="fade-in">
+                <div class="input-group">
+                    <label for="qr-name">QR Name:</label>
+                    <input type="text" id="qr-name-update" placeholder="Enter QR Name">
+                </div>
+                <div class="input-group">
+                    <label for="qr-type-update">Select QR Type:</label>
+                    <select id="qr-type-update"> <!-- Dropdown for QR type -->
+                        <option value="media">Media</option>
+                        <option value="text">Text File</option>
+                        <option value="url">URL</option>
+                    </select>
+                </div>
+
+                <div id="input-fields-update"></div>
+                <div class="input-group">
+                    <label for="qr-dot-color-update">VibeCode Farbe:</label>
+                    <input type="color" id="qr-dot-color-update" value="#000000">
+                </div>
+                <div class="input-group">
+                    <label for="bg-color-update">Background Color:</label>
+                    <input type="color" id="bg-color-update" value="#ffffff">
+                </div>
+                <div class="input-group">
+                    <label for="dot-style-update">Dot Style:</label>
+                    <select id="dot-style-update">
+                        <option value="square">Square</option>
+                        <option value="rounded">Rounded</option>
+                        <option value="dots">Dots</option>
+                        <option value="classy">Classy</option>
+                        <option value="hexagon">Hexagon</option>
+                        <option value="star">Star</option>
+                        <option value="circle">Circle</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="corner-style-update">Corner Style:</label>
+                    <select id="corner-style-update">
+                        <option value="square">Square</option>
+                        <option value="dot">Dot</option>
+                        <option value="extra-rounded">Extra Rounded</option>
+                        <option value="triangle">Triangle</option>
+                        <option value="diamond">Diamond</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="gradient-update">Apply Gradient:</label>
+                    <select id="gradient-update">
+                        <option value="none">None</option>
+                        <option value="linear">Linear</option>
+                        <option value="radial">Radial</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="logo-update">Add Logo (optional):</label>
+                    <input type="file" id="logo-update" accept="image/*">
+                </div>
+                <!-- Submit Button -->
+                <button class="submit-btn" id="submit-btn-update">Update QR Code</button>
+            </div>
+        </div>
+    </div>
+    <script src="/js/api-calls.js"></script>
+    <script src="/js/qr-gallery.js"></script>
+    <script>
+        const qrCodesMap = {};
+
+        function showQrCodes(qrCodes) {
+            qrCodes.forEach((qrCodeData) => {
+                const qrContainer = document.getElementById(`qr-container-${qrCodeData._id}`);
+                let logo = "/images/logo.jpg"
+                let logoUrl;
+                if (logo) {
+                    logoUrl = `${window.location.protocol}//${window.location.host}/${logo}`;
+                }
+           
+
+                if (qrContainer) {
+                    const qrCode = new QRCodeStyling({
+                        width: 3000,
+                        height: 3000,
+                        type: "canvas",
+                        data: `${window.location.protocol}//${window.location.host}/${qrCodeData.code}`,
+                        dotsOptions: {
+                            color: qrCodeData.qrDotColor || "#000000",
+                            type: qrCodeData.dotStyle || "square",
+                            gradient: qrCodeData.applyGradient === "linear" ? {
+                                type: "linear",
+                                colorStops: [
+                                    { offset: 0, color: "#ff0000" },
+                                    { offset: 1, color: qrCodeData.qrDotColor || "#000000" }
+                                ]
+                            } : qrCodeData.applyGradient === "radial" ? {
+                                type: "radial",
+                                colorStops: [
+                                    { offset: 0, color: "#ff0000" },
+                                    { offset: 1, color: qrCodeData.qrDotColor || "#000000" }
+                                ]
+                            } : null
+                        },
+                        backgroundOptions: {
+                            color: qrCodeData.backgroundColor || "#ffffff",
+                        },
+                        cornersSquareOptions: {
+                            type: qrCodeData.cornerStyle || "square",
+                        },
+                        image: logoUrl ? logoUrl : "",  // Use logo image if provided
+                        imageOptions: {
+                            crossOrigin: "anonymous",
+                            margin: 10
+                        }
+                    });
+
+                    qrCode.append(qrContainer);
+
+                    // Store each QRCodeStyling instance in a dictionary for downloading later
+                    qrCodesMap[qrCodeData._id] = qrCode;
+                } else {
+                    console.error(`Container for QR code with ID ${qrCodeData._id} not found.`);
+                }
+            });
+        }
+
+        function downloadQRCodeShowed(qrCodeId) {
+            const qrCode = qrCodesMap[qrCodeId];
+            if (qrCode) {
+                qrCode.download({ name: "qr-code", extension: "png", width: 16000, height: 16000 }); // High resolution download
+            } else {
+                console.error(`QR Code with ID ${qrCodeId} not found.`);
+            }
+        }
+
+        // Get QR codes data and generate QR codes
+
+        let getTest = <%- JSON.stringify(qrCodes) %>;
+
+        showQrCodes(getTest);
+    </script>
+</body>
+
+</html>
