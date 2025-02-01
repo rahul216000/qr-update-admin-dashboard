@@ -9,7 +9,9 @@ const QRCodeData = require("../models/QRCODEDATA"); // Adjust the path as necess
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
-const { sendResetPasswordEmail } = require("../public/js/email-service");
+// const { sendResetPasswordEmail } = require("../public/js/email-service");
+const SendEmail = require("../Messages/SendEmail")
+
 const {
   encryptPassword,
   decryptPassword,
@@ -405,7 +407,79 @@ router.post("/reset-password", async (req, res) => {
     const resetLink = `${process.env.FRONTEND_URL}/forgotpassword/${resetToken}`;
 
     // Send the reset link via email using Brevo
-    await sendResetPasswordEmail(user.email, resetLink);
+    // await sendResetPasswordEmail(user.email, resetLink);
+
+
+    const sender = {
+      email: 'textildruckschweiz.com@gmail.com',
+      name: `Magic Code - Password Reset`,
+    }
+
+    let content = `
+    <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Your Password</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+        }
+        p {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .btn {
+            display: inline-block;
+            background: #007bff;
+            color: #ffffff;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Reset Your Password</h2>
+        <p>Hi ${user.fullName},</p>
+        <p>We received a request to reset your password for the account associated with ${user.email}.</p>
+        <p>Click the button below to set a new password:</p>
+        <a href="${resetLink}" class="btn">Reset Password</a>
+        <p>If you did not request this change, you can safely ignore this email.</p>
+        <p class="footer">&copy; 2025 Magic Code | All rights reserved.</p>
+    </div>
+</body>
+</html>
+
+    `
+
+    await SendEmail(sender, user.email , "Password Reset of your Magic Code Account", content)
+
 
     res.status(200).json({
       message: "Password reset link sent to your email",
